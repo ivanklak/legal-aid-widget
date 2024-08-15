@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Test</title>
+</head>
+<body>
+<div id="my-widget-container"></div>
+
+<!-- Подключаем скомпилированный JS-файл -->
+<script src="dist/bundle.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Проверяем, что глобальный объект LegalAidWidgetApi существует
+        if (typeof window.LegalAidWidgetApi !== 'undefined') {
+            try {
+                // Инициализируем виджет в контейнере
+                window.LegalAidWidgetApi.button('my-widget-container');
+            } catch (error) {
+                console.error('Ошибка инициализации виджета:', error);
+            }
+        } else {
+            console.error('SDK не загружен или инициализирован неправильно.');
+        }
+    })
+</script>
+</body>
+</html>

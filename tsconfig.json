@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es6",                        // ECMAScript target version
+    "module": "esnext",                     // Module code generation
+    "allowJs": true,
+    "strict": true,                         // Enable all strict type-checking options
+    "esModuleInterop": true,                // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true,                   // Skip type checking of all declaration files (*.d.ts)
+    "moduleResolution": "node",             // Module resolution strategy: 'node' for Node.js-style resolution
+    "outDir": "./dist",                     // Redirect output structure to the directory
+    "rootDir": "./src",                     // Specify the root directory of input files
+    "jsx": "react",                         // Specify JSX code generation: 'react-jsx' for new JSX transform
+    "resolveJsonModule": true,              // Include modules imported with '.json' extension
+    "lib": ["DOM", "ES2020", "DOM.Iterable", "ESNext"] // Specify library files to be included in the compilation
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
