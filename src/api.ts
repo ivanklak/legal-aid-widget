@@ -15,13 +15,16 @@ namespace LegalAidWidget {
             this.containerElement = container;
         }
 
-        public init(): void {
+        public init(redirectUrl?: string): void {
             this.containerElement.innerHTML = '<button>Тык пык</button>';
             const buttonEl = this.containerElement.querySelector('button');
             if (buttonEl) {
                 buttonEl.className = 'legal-aid-widget-button';
                 buttonEl.addEventListener('click', () => {
-                    console.log('=== CLICK ===');
+                    console.log('=== CLICK -> redirect to Create new request ===');
+                    if (redirectUrl) {
+                        window.open(redirectUrl, '_blank');
+                    }
                 });
             }
         }
@@ -29,16 +32,21 @@ namespace LegalAidWidget {
 
     export class Api {
 
+        constructor() {
+            this.runInitCallbacks = this.runInitCallbacks.bind(this);
+        }
+
         // button widget
-        public button(containerId: string): Button {
+        public button(containerId: string, redirectUrl?: string): Button {
             const widget = new Button(this, containerId);
             console.log('Api.button -> widget', widget)
-            widget.init();
+            widget.init(redirectUrl);
             return widget;
         }
 
         // run callbacks
         public runInitCallbacks(): void {
+            console.log('run run run -> runInitCallbacks')
             const myCompanyApiInitCallbacks = (window as any).legalAidWidgetApiInitCallbacks;
             if (myCompanyApiInitCallbacks && myCompanyApiInitCallbacks.length) {
                 setTimeout(() => {

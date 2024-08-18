@@ -5,24 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Widget Test</title>
 </head>
-<body>
-<div id="my-widget-container"></div>
+<style>
+    .partner-caption {
+        font-size: 32px;
+        font-weight: 600;
+    }
+    .content {
+        margin: 24px 0;
+    }
 
+</style>
+<body>
 <!-- Подключаем скомпилированный JS-файл -->
-<script src="dist/bundle.js"></script>
+<!--<script src="dist/bundle.js"></script>-->
+    <div>
+        <div class="partner-caption">Partner website</div>
+        <div class="content">
+            <div>Читос или кузя лакомкин?</div>
+            <div>
+                Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. Базарю. Под пивас вообще четко залетает, тает во рту, каеф. Будто девчонку первый раз попробовал. И к слову жизнь как рюкзак нагруженный пивом - чем больше пьешь пиво тем тебе легче. Главное перед мамой не спалиться
+            </div>
+        </div>
+        <div class="content">Считаяете, что нарушены ваши права? Звоните Солу Гудману. Или тыкните на кнопушку снизу.</div>
+        <button id="load-widget-button">Помощь юриста</button>
+        <div id="my-widget-container"></div>
+    </div>
 <script>
+    const loadWidget = (src, id, callback) => {
+        return new Promise((resolve, reject) => {
+            const t = document.createElement('script');
+            t.type ='text/javascript';
+            t.async = true;
+            t.id = id;
+            t.onload = () => {
+                callback();
+                resolve();
+            };
+            t.onerror = () => {
+                reject();
+            };
+            t.src = src;
+            const c = document.getElementsByName('script')[0];
+            if ( c ) c.parentNode.insertBefore(t, c);
+            else document.documentElement.firstChild.appendChild(t);
+        })
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
-        // Проверяем, что глобальный объект LegalAidWidgetApi существует
-        if (typeof window.LegalAidWidgetApi !== 'undefined') {
-            try {
-                // Инициализируем виджет в контейнере
-                window.LegalAidWidgetApi.button('my-widget-container');
-            } catch (error) {
-                console.error('Ошибка инициализации виджета:', error);
-            }
-        } else {
-            console.error('SDK не загружен или инициализирован неправильно.');
-        }
+        const buttonEl = document.getElementById('load-widget-button');
+        buttonEl?.addEventListener('click', () => {
+            loadWidget(
+                'dist/bundle.js',
+                'partnerId',
+                () => {
+                    // Проверяем, что глобальный объект LegalAidWidgetApi существует
+                    if (typeof window.LegalAidWidgetApi !== 'undefined') {
+                        try {
+                            // Инициализируем виджет в контейнере
+                            const redirectUrl = 'http://localhost:3000/';
+                            window.LegalAidWidgetApi.button('my-widget-container', redirectUrl);
+                        } catch (error) {
+                            console.error('Ошибка инициализации виджета:', error);
+                        }
+                    } else {
+                        console.error('SDK не загружен или инициализирован неправильно.');
+                    }
+                }
+            ).then(() => {
+                console.log('onload -> resolve')
+            }).catch((e) => {
+                console.log('onerror -> reject', e)
+            })
+        })
     })
 </script>
 </body>
