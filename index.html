@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Widget Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <style>
     .partner-caption {
@@ -27,10 +30,12 @@
             </div>
         </div>
         <div class="content">Считаяете, что нарушены ваши права? Звоните Солу Гудману. Или тыкните на кнопушку снизу.</div>
-        <button id="load-widget-button">Помощь юриста</button>
         <div id="my-widget-container"></div>
     </div>
 <script>
+    const PARTNER_ID = 's6er-p4r1n3r-1d';
+    const SCRIPT_SRC = `dist/bundle.js?id=${PARTNER_ID}`;
+
     const loadWidget = (src, id, callback) => {
         return new Promise((resolve, reject) => {
             const t = document.createElement('script');
@@ -51,31 +56,25 @@
         })
     }
 
+    // например, партнер решил загрузить нашу кнопкц сразу после загрузки контента
     document.addEventListener('DOMContentLoaded', function () {
-        const buttonEl = document.getElementById('load-widget-button');
-        buttonEl?.addEventListener('click', () => {
-            loadWidget(
-                'dist/bundle.js',
-                'partnerId',
-                () => {
-                    // Проверяем, что глобальный объект LegalAidWidgetApi существует
-                    if (typeof window.LegalAidWidgetApi !== 'undefined') {
-                        try {
-                            // Инициализируем виджет в контейнере
-                            const redirectUrl = 'http://localhost:3000/';
-                            window.LegalAidWidgetApi.button('my-widget-container', redirectUrl);
-                        } catch (error) {
-                            console.error('Ошибка инициализации виджета:', error);
-                        }
-                    } else {
-                        console.error('SDK не загружен или инициализирован неправильно.');
-                    }
+        loadWidget(
+            SCRIPT_SRC,
+            'legal-widget-id',
+            () => {
+                // Проверяем, что глобальный объект LegalAidWidgetApi существует
+                if (typeof window.LegalAidWidgetApi !== 'undefined') {
+                    console.log('глобальный объект LegalAidWidgetApi существует')
+                    // передаем id партнера (пока что так)
+                    window.LegalAidWidgetApi.button(PARTNER_ID);
+                } else {
+                    console.error('SDK не загружен или инициализирован неправильно.');
                 }
-            ).then(() => {
-                console.log('onload -> resolve')
-            }).catch((e) => {
-                console.log('onerror -> reject', e)
-            })
+            }
+        ).then(() => {
+            console.log('onload -> resolve')
+        }).catch((e) => {
+            console.log('onerror -> reject', e)
         })
     })
 </script>
