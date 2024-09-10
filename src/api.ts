@@ -1,4 +1,4 @@
-const REDIRECT_URL = 'http://localhost:3000/newRequest?external=1';
+const REDIRECT_URL = 'https://ivanklak.github.io/legal-aid-app/#/newRequest?external=1';
 
 namespace LegalAidWidget {
 
