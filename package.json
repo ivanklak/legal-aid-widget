@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Widget for partners",
   "main": "webpack.config.js",
+  "homepage": "https://ivanklak.github.io/legal-aid-widget/",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "start": "webpack serve --config webpack.config.js"
+    "start": "webpack serve --config webpack.config.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -15,6 +18,7 @@
   "author": "Ivan Klakotckii",
   "license": "ISC",
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "ts-loader": "9.3.0",
     "typescript": "^5.5.2",
     "webpack-cli": "^5.1.4",
